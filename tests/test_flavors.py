@@ -27,9 +27,45 @@ class FlavorsTest(utils.TestCase):
         """
         Verify the expected details are returned for a flavor
         """
+        expected_flavor = flavors.EXPECTED_FLAVORS[0]
 
         flavor = self.os.flavors.get(1)
         self.assertIsInstance(flavor, flavors.Flavor)
-        self.assertEqual(flavor.ram, 512)
-        self.assertEqual(flavor.disk, 0)
+        self.assertEqual(flavor.name, expected_flavor["name"])
+        self.assertEqual(flavor.ram, expected_flavor["ram"])
+        self.assertEqual(flavor.disk, expected_flavor["disk"])
         self.assertEqual(200, flavor.status_code)
+
+    def test_get_flavors(self):
+        """
+        Verify the expected flavors are returned
+        """
+
+        flavors_list = sorted(self.os.flavors.list(), key=lambda k: k.id)
+        self.assertEqual(len(flavors.EXPECTED_FLAVORS), len(flavors_list))
+        for i in range(len(flavors_list)):
+            expected_flavor = flavors.EXPECTED_FLAVORS[i]
+
+            flavor = flavors_list[i]
+        
+            self.assertIsInstance(flavor, flavors.Flavor)
+            self.assertEqual(flavor.name, expected_flavor["name"])
+            self.assertEqual(200, flavor.status_code)
+
+    def test_get_flavors_details(self):
+        """
+        Verify the detailed expected flavors are returned
+        """
+
+        flavors_list = sorted(self.os.flavors.list_details(), key=lambda k: k.id)
+        self.assertEqual(len(flavors.EXPECTED_FLAVORS), len(flavors_list))
+        for i in range(len(flavors_list)):
+            expected_flavor = flavors.EXPECTED_FLAVORS[i]
+
+            flavor = flavors_list[i]
+        
+            self.assertIsInstance(flavor, flavors.Flavor)
+            self.assertEqual(flavor.name, expected_flavor["name"])
+            self.assertEqual(flavor.ram, expected_flavor["ram"])
+            self.assertEqual(flavor.disk, expected_flavor["disk"])
+            self.assertEqual(200, flavor.status_code)

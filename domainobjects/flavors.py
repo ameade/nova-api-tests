@@ -20,6 +20,14 @@ Flavor interface.
 
 import base
 
+EXPECTED_FLAVORS = [
+    {"id" : 1, "name" : "m1.tiny", "ram" : 512, "disk" : 0},
+    {"id" : 2, "name" : "m1.small", "ram" : 2048, "disk" : 20},
+    {"id" : 3, "name" : "m1.medium", "ram" : 4096, "disk" : 40},
+    {"id" : 4, "name" : "m1.large", "ram" : 8192, "disk" : 80},
+    {"id" : 5, "name" : "m1.xlarge", "ram" : 16384, "disk" : 160},
+]
+
 
 class Flavor(base.Resource):
     """
@@ -41,7 +49,7 @@ class FlavorManager(base.ManagerWithFind):
 
         :rtype: list of :class:`Flavor`.
         """
-        return self._list("/flavors/detail", "flavors")
+        return self._list("/flavors", "flavors")
         
     def list_details(self):
         """
