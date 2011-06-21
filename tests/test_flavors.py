@@ -22,14 +22,18 @@ class FlavorsTest(utils.TestCase):
 
     def setUp(self):
         self.os = openstack.OpenStack()
+        #TODO (ameade): get actual flavors from db
+        self.expected_flavors = flavors.EXPECTED_FLAVORS
 
     def test_get_flavor_details(self):
         """
         Verify the expected details are returned for a flavor
         """
-        expected_flavor = flavors.EXPECTED_FLAVORS[0]
+        expected_flavor = self.expected_flavors[0]
+        if expected_flavor is None:
+            return
 
-        flavor = self.os.flavors.get(1)
+        flavor = self.os.flavors.get(expected_flavor["id"])
         self.assertIsInstance(flavor, flavors.Flavor)
         self.assertEqual(flavor.name, expected_flavor["name"])
         self.assertEqual(flavor.ram, expected_flavor["ram"])
@@ -42,9 +46,9 @@ class FlavorsTest(utils.TestCase):
         """
 
         flavors_list = sorted(self.os.flavors.list(), key=lambda k: k.id)
-        self.assertEqual(len(flavors.EXPECTED_FLAVORS), len(flavors_list))
+        self.assertEqual(len(self.expected_flavors), len(flavors_list))
         for i in range(len(flavors_list)):
-            expected_flavor = flavors.EXPECTED_FLAVORS[i]
+            expected_flavor = self.expected_flavors[i]
 
             flavor = flavors_list[i]
         
@@ -58,9 +62,9 @@ class FlavorsTest(utils.TestCase):
         """
 
         flavors_list = sorted(self.os.flavors.list_details(), key=lambda k: k.id)
-        self.assertEqual(len(flavors.EXPECTED_FLAVORS), len(flavors_list))
+        self.assertEqual(len(self.expected_flavors), len(flavors_list))
         for i in range(len(flavors_list)):
-            expected_flavor = flavors.EXPECTED_FLAVORS[i]
+            expected_flavor = self.expected_flavors[i]
 
             flavor = flavors_list[i]
         

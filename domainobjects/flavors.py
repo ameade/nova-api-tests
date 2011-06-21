@@ -20,6 +20,7 @@ Flavor interface.
 
 import base
 
+#Stubbed until db interaction is impl
 EXPECTED_FLAVORS = [
     {"id" : 1, "name" : "m1.tiny", "ram" : 512, "disk" : 0},
     {"id" : 2, "name" : "m1.small", "ram" : 2048, "disk" : 20},
